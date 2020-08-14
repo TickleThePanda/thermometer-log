@@ -1,0 +1,9 @@
+version: "3.8"
+services:
+  thermometer:
+    build:
+      context: ./thermometer
+    volumes:
+      - type: bind
+        source: "${THERMOMETER_DEVICE_PATH:?err}"
+        target: "/app/dev/therm"
