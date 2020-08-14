@@ -2,15 +2,15 @@
 
 A platform for logging temperature using `w1_therm` thermometers.
 
-## Server
+## Temperature logbook
 
-See `server`.
+See `logbook`.
 
 A server for storing the logs from the devices.
 
-## Raspberry PI client
+## Raspberry PI logger
 
-See `client`.
+See `logger`.
 
 A raspberry PI thermometer that reads the temperature and sends it to
 a server over HTTP.
