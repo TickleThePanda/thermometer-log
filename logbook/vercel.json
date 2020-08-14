@@ -4,7 +4,12 @@
     { "src": "src/*.js", "use": "@vercel/node" }
   ],
   "routes": [
-    { "src": "/rooms/(?<roomId>[^/]+)/log", "methods": ["POST"], "dest": "src/log-entry.js" },
+    { "src": "/rooms/(?<roomId>[^/]+)/log", "methods": ["POST"], "dest": "src/log-entry.js?roomId=$roomId" },
     { "src": "/.*", "status": 404 }
-  ]
+  ],
+  "env": {
+    "THERMOMETER_AWS_ACCESS_KEY": "@thermometer-aws-id",
+    "THERMOMETER_AWS_SECRET_KEY": "@thermometer-aws-secret",
+    "THERMOMETER_AWS_REGION": "@thermometer-aws-region"
+  }
 }

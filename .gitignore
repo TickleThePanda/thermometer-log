@@ -9,8 +9,13 @@ target
 # local config
 /application.properties
 
+# js
+node_modules
+
+
 # Vercel
 .vercel
+.env
 
 # Terraform
 .terraform
