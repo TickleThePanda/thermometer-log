@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "src/*.js", "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "/rooms/(?<roomId>[^/]+)/log", "methods": ["POST"], "dest": "src/log-entry.js" },
+    { "src": "/.*", "status": 404 }
+  ]
+}
