@@ -1,0 +1,11 @@
+# generated
+target
+*.class
+
+# intellij
+*.iml
+.idea
+
+
+# local config
+/application.properties
