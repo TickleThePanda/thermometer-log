@@ -3,7 +3,11 @@ services:
   thermometer:
     build:
       context: ./thermometer
+    environment:
+      THERM_LOCATION: "${THERM_LOCATION:?err}"
+      THERM_READ_PERIOD: "${THERM_READ_PERIOD:-60}"
+      THERM_SERVER_ADDRESS: "${THERM_SERVER_ADDRESS:?err}"
     volumes:
       - type: bind
-        source: "${THERMOMETER_DEVICE_PATH:?err}"
+        source: "${THERM_DEV_PATH:?err}"
         target: "/app/dev/therm"

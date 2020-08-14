@@ -1,0 +1,13 @@
+version: "3.8"
+services:
+  thermometer:
+    depends_on:
+      - thermometer-echo-server
+    environment:
+      THERM_SERVER_ADDRESS: "http://thermometer-echo-server"
+  thermometer-echo-server:
+    build:
+      context: ./thermometer-echo-server
+    environment:
+      PORT: 80
+
