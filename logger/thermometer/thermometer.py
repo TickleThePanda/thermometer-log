@@ -34,7 +34,7 @@ def main():
     read_period = int(os.environ.get('THERM_READ_PERIOD', '2'))
     location = get_required_env('THERM_LOCATION')
     server_address = get_required_env('THERM_SERVER_ADDRESS')
-    url = server_address + '/room/' + location + '/log' 
+    url = server_address + '/rooms/' + location + '/log'
 
     reader = ThermometerReader()
     thermometer_logger = ThermometerLog(url)
