@@ -3,6 +3,7 @@ services:
   thermometer:
     build:
       context: ./thermometer
+    image: ticklethepanda/thermometer-logger
     environment:
       THERM_LOCATION: "${THERM_LOCATION:?err}"
       THERM_READ_PERIOD: "${THERM_READ_PERIOD:-60}"
@@ -11,3 +12,4 @@ services:
       - type: bind
         source: "${THERM_DEV_PATH:?err}"
         target: "/app/dev/therm"
+
