@@ -1,0 +1,18 @@
+version: "3.8"
+services:
+  thermometer:
+    environment:
+      THERM_LOCATION: "${THERM_LOCATION:?err}"
+      THERM_READ_PERIOD: "${THERM_READ_PERIOD:-60}"
+      THERM_SERVER_ADDRESS: "${THERM_SERVER_ADDRESS:?err}"
+    volumes:
+      - type: bind
+        source: "${THERM_DEV_PATH:?err}"
+        target: "/app/dev/therm"
+    secrets:
+      - therm_auth_key
+
+secrets:
+  therm_auth_key:
+    external: true
+

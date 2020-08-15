@@ -18,11 +18,18 @@ class ThermometerReader:
                 print("Error: unable to read temperature: " + crc_line)
 
 class ThermometerLog:
-    def __init__(self, url):
+    def __init__(self, url, token):
         self.url = url
+        self.token = token
 
     def log(self, temp_reading):
-        response = requests.post(self.url, json={ 'temperature': temp_reading })
+        data = {
+            'temperature': temp_reading
+        }
+        headers = {
+            'Authorization': ('Bearer ' + self.token)
+        }
+        response = requests.post(self.url, json=data, headers=headers)
         response.raise_for_status()
 
 def get_required_env(key):
@@ -31,14 +38,19 @@ def get_required_env(key):
 
     return os.environ.get(key)
 
+def get_secret(secret):
+    with open('/run/secrets/' + secret) as f:
+        return f.readline().strip();
+
 def main():
     read_period = int(os.environ.get('THERM_READ_PERIOD', '2'))
     location = get_required_env('THERM_LOCATION')
     server_address = get_required_env('THERM_SERVER_ADDRESS')
     url = server_address + '/rooms/' + location + '/log'
+    token = get_secret('therm_auth_token')
 
     reader = ThermometerReader()
-    thermometer_logger = ThermometerLog(url)
+    thermometer_logger = ThermometerLog(url, token)
 
     while True:
         try:

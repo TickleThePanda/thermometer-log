@@ -16,12 +16,12 @@ class LoggingServer(BaseHTTPRequestHandler):
     def do_POST(self):
         content_length = int(self.headers['Content-Length'])
         post_data = self.rfile.read(content_length).decode('utf-8')
-        print("POST " + str(self.path) + "\n\n" + post_data)
+        headers = self.headers;
+        print("---\nPOST " + str(self.path) + "\n" + str(headers) + post_data)
         self._send_response()
 
     def log_message(self, format, *args):
         return
-
 
 httpd = HTTPServer(('', port), LoggingServer)
 httpd.serve_forever()

@@ -4,10 +4,21 @@ services:
     depends_on:
       - thermometer-echo-server
     environment:
+      THERM_LOCATION: "test"
       THERM_SERVER_ADDRESS: "http://thermometer-echo-server"
+      THERM_READ_PERIOD: "10"
+    volumes:
+      - type: bind
+        source: "./test/fake-reading.txt"
+        target: "/app/dev/therm"
+    secrets:
+      - therm_auth_token
   thermometer-echo-server:
     build:
       context: ./thermometer-echo-server
     environment:
       PORT: 80
 
+secrets:
+  therm_auth_token:
+    file: ./test/therm-auth-secret.txt

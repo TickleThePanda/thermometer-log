@@ -1,0 +1,26 @@
+version: "3.8"
+services:
+  thermometer:
+    depends_on:
+      - thermometer-echo-server
+    environment:
+      THERM_LOCATION: "${THERM_LOCATION:?err}"
+      THERM_SERVER_ADDRESS: "http://thermometer-echo-server"
+      THERM_READ_PERIOD: "${THERM_READ_PERIOD:-60}"
+    volumes:
+      - type: bind
+        source: "${THERM_DEV_PATH:?err}"
+        target: "/app/dev/therm"
+    secrets:
+      - therm_auth_key
+
+  thermometer-echo-server:
+    build:
+      context: ./thermometer-echo-server
+    environment:
+      PORT: 80
+
+secrets:
+  therm_auth_key:
+    external: true
+
