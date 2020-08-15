@@ -1,9 +1,13 @@
 import AWS from 'aws-sdk';
 import moment from 'moment';
 
+import { JWT, JWK } from 'jose';
+
 const AWS_ACCESS_KEY = process.env.THERMOMETER_AWS_ACCESS_KEY;
 const AWS_SECRET_KEY = process.env.THERMOMETER_AWS_SECRET_KEY;
 const AWS_REGION = process.env.THERMOMETER_AWS_REGION;
+
+const AUTH_KEY = JWK.asKey(process.env.THERMOMETER_AUTH_SECRET);
 
 AWS.config.update({
   'accessKeyId': AWS_ACCESS_KEY,
@@ -31,22 +35,42 @@ async function updateEntry({ room, date, time, temperature }) {
 	}).promise();
 }
 
+function isAuthed(req) {
+  const authValue = req.headers.authorization;
+  if (authValue === undefined || !authValue.startsWith('Bearer ')) {
+    return false;
+  }
+
+  const token = authValue.substring(7);
+
+  return JWT.verify(token, AUTH_KEY);
+}
+
 module.exports = async (req, res) => {
-  const temperature = req.body.temperature;
-  const room = req.query.roomId;
-  console.log(req.query)
-  console.log("temperature in " + room + ": " + temperature);
-  
-  const now = moment();
+  try {
+    if(!isAuthed(req)) {
+      res.status(401).send();
+      return;
+    }
 
-  const date = now.format("YYYY-MM-DD");
-  const time = now.format("HH:mm:ss");
+    const temperature = req.body.temperature;
+    const room = req.query.roomId;
+    console.log(req.query)
+    console.log("temperature in " + room + ": " + temperature);
+    
+    const now = moment();
 
-	await updateEntry({
-    room, temperature,
-    date, time
-  })
+    const date = now.format("YYYY-MM-DD");
+    const time = now.format("HH:mm:ss");
 
-  res.status(204).send();
+    await updateEntry({
+      room, temperature,
+      date, time
+    })
+
+    res.status(204).send();
+  } catch {
+    res.status(500).send();
+  }
 }
 
