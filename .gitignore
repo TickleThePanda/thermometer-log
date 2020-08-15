@@ -6,6 +6,19 @@ target
 *.iml
 .idea
 
-
 # local config
 /application.properties
+
+# js
+node_modules
+
+
+# Vercel
+.vercel
+.env
+
+# Terraform
+.terraform
+*.tfstate
+*.tfstate.backup
+
