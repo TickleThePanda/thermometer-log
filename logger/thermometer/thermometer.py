@@ -47,7 +47,7 @@ def main():
     location = get_required_env('THERM_LOCATION')
     server_address = get_required_env('THERM_SERVER_ADDRESS')
     url = server_address + '/rooms/' + location + '/log'
-    token = get_secret('therm_auth_token')
+    token = get_secret('therm_auth_secret')
 
     reader = ThermometerReader()
     thermometer_logger = ThermometerLog(url, token)

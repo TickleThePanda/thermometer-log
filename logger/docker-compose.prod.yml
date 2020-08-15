@@ -10,9 +10,9 @@ services:
         source: "${THERM_DEV_PATH:?err}"
         target: "/app/dev/therm"
     secrets:
-      - therm_auth_key
+      - therm_auth_secret
 
 secrets:
-  therm_auth_key:
+  therm_auth_secret:
     external: true
 

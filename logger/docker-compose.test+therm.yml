@@ -12,7 +12,7 @@ services:
         source: "${THERM_DEV_PATH:?err}"
         target: "/app/dev/therm"
     secrets:
-      - therm_auth_key
+      - therm_auth_secret
 
   thermometer-echo-server:
     build:
@@ -21,6 +21,6 @@ services:
       PORT: 80
 
 secrets:
-  therm_auth_key:
+  therm_auth_secret:
     external: true
 

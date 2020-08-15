@@ -12,7 +12,7 @@ services:
         source: "./test/fake-reading.txt"
         target: "/app/dev/therm"
     secrets:
-      - therm_auth_token
+      - therm_auth_secret
   thermometer-echo-server:
     build:
       context: ./thermometer-echo-server
@@ -20,5 +20,5 @@ services:
       PORT: 80
 
 secrets:
-  therm_auth_token:
+  therm_auth_secret:
     file: ./test/therm-auth-secret.txt
