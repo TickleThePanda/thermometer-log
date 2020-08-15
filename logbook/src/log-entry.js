@@ -1,6 +1,5 @@
 import AWS from 'aws-sdk';
 import moment from 'moment';
-
 import { JWT, JWK } from 'jose';
 
 const AWS_ACCESS_KEY = process.env.THERMOMETER_AWS_ACCESS_KEY;
@@ -55,7 +54,7 @@ module.exports = async (req, res) => {
 
     const temperature = req.body.temperature;
     const room = req.query.roomId;
-    console.log(req.query)
+
     console.log("temperature in " + room + ": " + temperature);
     
     const now = moment();
