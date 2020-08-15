@@ -22,7 +22,8 @@ class ThermometerLog:
         self.url = url
 
     def log(self, temp_reading):
-        requests.post(self.url, json={ 'temperature': temp_reading })
+        response = requests.post(self.url, json={ 'temperature': temp_reading })
+        response.raise_for_status()
 
 def get_required_env(key):
     if key not in os.environ:
@@ -40,14 +41,20 @@ def main():
     thermometer_logger = ThermometerLog(url)
 
     while True:
-        start_time = time.time()
-        temp_reading = reader.read()
-        print("Temperature: " + str(temp_reading))
-        thermometer_logger.log(temp_reading)
+        try:
+            start_time = time.time()
+            temp_reading = reader.read()
+            print("Temperature: " + str(temp_reading))
+            thermometer_logger.log(temp_reading)
         
-        remaining = read_period - (time.time() - start_time)
-        if (remaining > 0):
-            time.sleep(read_period)
+            remaining = read_period - (time.time() - start_time)
+            if (remaining > 0):
+                time.sleep(read_period)
+
+        except requests.HTTPError as err:
+            print("Request failed: " + str(err))
+        except OSError as err:
+            print("Unable to read temperature: " + str(err))
 
 if __name__ == "__main__":
     main()
