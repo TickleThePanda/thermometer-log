@@ -6,7 +6,9 @@ A platform for logging temperature using `w1_therm` thermometers.
 
 See `logbook`.
 
-A server for storing the logs from the devices.
+A server for storing the logs from the devices. It's designed to run on
+Vercel. It uses AWS DynamoDB to store the data which can be created
+using terraform (see `storage.tf`).
 
 ## Raspberry PI logger
 
@@ -41,21 +43,35 @@ The recommended way:
    ```
    sudo pip3 -v install docker-compose
    ```
+5. Set up a single-node swarm on the Raspberry Pi
+   ```
+   docker swarm init
+   ```
+6. Update the environment variables, replacing the `<..>`s with the
+   correct values:
+   ```
+   THERM_DEV_PATH=/sys/devices/w1_bus_master1/28-<ID>/w1_slave
+   THERM_SERVER_ADDRESS=<server-address>
+   THERM_LOCATION=<location
+   ```
+7. Set up service secret:
+   ```
+   docker secret create therm_auth_secret -
+   ```
 
 ### Usage
 
 1. Clone this repo
 2. Run the following command, replacing <location> with the location of the thermometer, for example "living-room". This should only use a-z characters or hypens.
    ```
-   THERM_SERVER_ADDRESS=https://<server>/ THERM_LOCATION=<location> THERM_DEVICE_PATH=$(echo /sys/devices/w1_bus_master1/28-*/w1_slave) docker-compose up --build
+   docker stack delpoy --compose-file docker-compse.yml --compose-file docker-compose.prod.yml thermometer
    ```
 
 ### Manual testing
 
-1. Run the command and check the output:
-   ```
-   THERM_LOCATION=<location> THERM_DEVICE_PATH=$(echo /sys/devices/w1_bus_master1/28-*/w1_slave) docker-compose -f docker-compose.yml -f docker-compose.single-node-test.yml up --build
-   ```
+```
+docker-compose -f docker-compose.yml -f 
+```
 
 [`w1_therm`]: https://www.kernel.org/doc/Documentation/w1/slaves/w1_therm
 [convenience script]: https://docs.docker.com/engine/install/debian/#install-using-the-convenience-script
