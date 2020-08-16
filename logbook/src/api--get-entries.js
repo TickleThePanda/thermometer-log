@@ -24,8 +24,11 @@ function aggregateToPeriod(entries, period) {
     const sum = bucketEntries.reduce((acc, curr) => acc + curr.temperature, 0);
     const count = bucketEntries.length;
     const avg = sum / count;
+
+    const timeAsString = time.format();
+    console.log("Converting " + time + " to " + timeAsString);
     aggregatedEntries.push({
-      time: time.format(),
+      time: timeAsString,
       count: count,
       temperature: avg
     });
