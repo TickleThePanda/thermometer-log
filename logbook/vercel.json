@@ -4,7 +4,8 @@
     { "src": "src/*.js", "use": "@vercel/node" }
   ],
   "routes": [
-    { "src": "/rooms/(?<roomId>[^/]+)/log", "methods": ["POST"], "dest": "src/log-entry.js?roomId=$roomId" },
+    { "src": "/rooms/(?<roomId>[^/]+)/log/(?<date>[^/]+)", "methods": ["GET", "OPTIONS"], "dest": "src/api--get-entries.js?roomId=$roomId&date=$date" },
+    { "src": "/rooms/(?<roomId>[^/]+)/log", "methods": ["POST"], "dest": "src/api--log-entry.js?roomId=$roomId" },
     { "src": "/.*", "status": 404 }
   ],
   "env": {
