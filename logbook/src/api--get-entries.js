@@ -26,7 +26,7 @@ function aggregateToPeriod(entries, period) {
     const avg = sum / count;
 
     const timeAsString = time.format();
-    console.log("Converting " + time + " to " + timeAsString);
+
     aggregatedEntries.push({
       time: timeAsString,
       count: count,
@@ -53,9 +53,13 @@ module.exports = allowCors(async (req, res) => {
       roomId
     });
 
-    const aggregated = aggregateToPeriod(entries, period);
+    if (period !== undefined) {
+      const aggregated = aggregateToPeriod(entries, period);
 
-    res.status(200).json(aggregated);
+      res.status(200).json(aggregated);
+    } else { 
+      res.status(200).json(entries);
+    }
   } catch (error) {
     console.log("Error serving " + req.url, error);
     res.status(500).send();
