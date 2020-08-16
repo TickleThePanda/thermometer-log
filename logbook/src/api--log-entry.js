@@ -20,7 +20,7 @@ module.exports = async (req, res) => {
     const now = moment();
 
     const date = now.format("YYYY-MM-DD");
-    const time = now.format("HH:mm:ss");
+    const time = now.format("HH:mm:ss") + 'Z';
 
     await log.updateEntry({
       room, temperature,
