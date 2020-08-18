@@ -43,23 +43,32 @@ def get_secret(secret):
         return f.readline().strip();
 
 def main():
+    print('Loading config...')
     read_period = int(os.environ.get('THERM_READ_PERIOD', '2'))
     location = get_required_env('THERM_LOCATION')
     server_address = get_required_env('THERM_SERVER_ADDRESS')
     url = server_address + '/rooms/' + location + '/log'
     token = get_secret('therm_auth_secret')
 
+    print('Setting up...')
     reader = ThermometerReader()
     thermometer_logger = ThermometerLog(url, token)
 
+    print('Thermometer started.')
     while True:
         try:
             start_time = time.time()
+            print('Reading the file content...')
             temp_reading = reader.read()
             print("Temperature: " + str(temp_reading))
+
+            print("Logging the temperature to the server...")
             thermometer_logger.log(temp_reading)
         
             remaining = read_period - (time.time() - start_time)
+
+            print("Waiting " + str(remaining) + " seconds")
+
             if (remaining > 0):
                 time.sleep(read_period)
 
