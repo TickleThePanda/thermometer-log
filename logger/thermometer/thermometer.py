@@ -29,7 +29,7 @@ class ThermometerLog:
         headers = {
             'Authorization': ('Bearer ' + self.token)
         }
-        response = requests.post(self.url, json=data, headers=headers)
+        response = requests.post(self.url, json=data, headers=headers, timeout=10)
         response.raise_for_status()
 
 def get_required_env(key):
