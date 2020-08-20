@@ -5,6 +5,8 @@ import ThermometerLog from './log-store.js';
 
 import allowCors from './allow-cors.js';
 
+import ServerTimings from './timings.js';
+
 const log = new ThermometerLog();
 
 function aggregateToPeriod(entries, period) {
@@ -38,6 +40,7 @@ function aggregateToPeriod(entries, period) {
 }
 
 module.exports = allowCors(async (req, res) => {
+  const timings = new ServerTimings();
   try {
     if(!isAuthorised(req)) {
       res.status(401).send();
@@ -48,14 +51,20 @@ module.exports = allowCors(async (req, res) => {
     const roomId = req.query.roomId;
     const period = req.query.period;
 
+    timings.start('db', 'Database');
+
     const entries = await log.getEntries({
       date,
       roomId
     });
 
-    if (period !== undefined) {
-      const aggregated = aggregateToPeriod(entries, period);
+    timings.end('db');
 
+    if (period !== undefined) {
+      timings.start('agg', 'Process aggregates');
+      const aggregated = aggregateToPeriod(entries, period);
+      timings.end('agg');
+      timings.addToResponse(res);
       res.status(200).json(aggregated);
     } else { 
       res.status(200).json(entries);
