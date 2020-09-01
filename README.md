@@ -10,14 +10,22 @@ A server for storing the logs from the devices. It's designed to run on
 Vercel. It uses AWS DynamoDB to store the data which can be created
 using terraform (see `storage.tf`).
 
-## Raspberry PI logger
+## Loggers
 
-See `logger`.
+See `logger` for the thermometer loggers.
+
+### `rasbpi_ds18b20` logger
 
 A raspberry PI thermometer that reads the temperature and sends it to
-a server over HTTP.
+a server over HTTP. It is compatible with the [`w1_therm`] devices.
 
-It is compatible with the [`w1_therm`] devices.
+### `black-pill+esp8266_ds18b20` logger
+
+A logger for the [STM32F103C8T6 Black Pill] with ESP8266 WiFi Microchip.
+
+This doesn't yet send the results to the logbook.
+
+It is built with PlatformIO.
 
 ### Requirements
 
@@ -74,5 +82,6 @@ docker-compose -f docker-compose.yml -f
 ```
 
 [`w1_therm`]: https://www.kernel.org/doc/Documentation/w1/slaves/w1_therm
+[STM32F103C8T6 Black Pill]: https://stm32-base.org/boards/STM32F103C8T6-Black-Pill.html
 [convenience script]: https://docs.docker.com/engine/install/debian/#install-using-the-convenience-script
 [pip]: https://docs.docker.com/compose/install/#install-using-pip
