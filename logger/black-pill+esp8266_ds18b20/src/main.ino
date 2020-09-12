@@ -1,5 +1,5 @@
-#include "led.h"
-#include "thermometer.h"
+#include "Led.h"
+#include "Thermometer.h"
 #include "ThermometerClient.h"
 
 #define THERMOMETER_PIN PB3

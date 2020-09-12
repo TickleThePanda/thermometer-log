@@ -2,7 +2,7 @@
 #include <OneWire.h>
 #include <DallasTemperature.h>
 
-#include "thermometer.h"
+#include "Thermometer.h"
 
 Thermometer::Thermometer(uint8_t pin) : oneWire(pin), sensors(&oneWire) {
 
