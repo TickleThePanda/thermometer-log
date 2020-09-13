@@ -53,7 +53,7 @@ void loop()
 
   led.flash(1, 100);
 
-  thermometerClient.send("test", temp);
+  thermometerClient.send(THERMOMETER_ROOM, temp);
 
   delay(READ_PERIOD);
 }
