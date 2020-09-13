@@ -13,7 +13,7 @@
  * Delay to allow time to attach to serial over USB.
  */
 #define INITIAL_DELAY 3000
-#define READ_PERIOD 1000*60
+#define READ_PERIOD 1000UL*60UL
 
 #define DEBUG_LOG Serial
 
@@ -32,6 +32,8 @@ WiFiCredentials wiFiCredentials = {
 
 ThermometerClient thermometerClient(wiFiHardware, wiFiCredentials, THERMOMETER_API_KEY);
 
+unsigned long nextLoopTime;
+
 void setup()
 {
   delay(INITIAL_DELAY);
@@ -39,8 +41,10 @@ void setup()
 
   thermometerClient.init();
   thermometer.print(&Serial);
-  
+
   led.flash(2, 100);
+
+  nextLoopTime = millis() + READ_PERIOD;
 
   DEBUG_LOG.println(F("main> Finished setup"));
 }
@@ -59,8 +63,19 @@ void loop()
 
   thermometerClient.send(THERMOMETER_ROOM, temp);
 
+  unsigned long waitTime = nextLoopTime - millis();
+  if (waitTime < 0) {
+    waitTime = 0;
+  } else if (waitTime > READ_PERIOD) {
+    waitTime = READ_PERIOD;
+  }
+
+  /* We don't use the current time here to keep the frequency roughly right. */
+  nextLoopTime += READ_PERIOD;
+
   DEBUG_LOG.print(F("main> Waiting for "));
-  DEBUG_LOG.print(READ_PERIOD / 1000);
+  DEBUG_LOG.print(waitTime / 1000);
   DEBUG_LOG.println(F(" seconds"));
-  delay(READ_PERIOD);
+  delay(waitTime);
 }
+
