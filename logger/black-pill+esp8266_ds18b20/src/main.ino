@@ -13,8 +13,9 @@
  * Delay to allow time to attach to serial over USB.
  */
 #define INITIAL_DELAY 3000
-#define POST_CONFIRMATION_DELAY 2000
-#define READ_PERIOD 1000*10
+#define READ_PERIOD 1000*60
+
+#define DEBUG_LOG Serial
 
 Led led(LED_PIN);
 Thermometer thermometer(THERMOMETER_PIN);
@@ -47,7 +48,10 @@ void loop()
 
   float temp = thermometer.read();
 
-  led.flash(static_cast<int>(temp), 100, 200);
+  DEBUG_LOG.print(F("main> Temperature was "));
+  DEBUG_LOG.println(temp);
+
+  led.flash(1, 100);
 
   thermometerClient.send("test", temp);
 

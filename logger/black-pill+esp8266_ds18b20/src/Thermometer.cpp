@@ -15,23 +15,21 @@ Thermometer::Thermometer(uint8_t pin) : oneWire(pin), sensors(&oneWire) {
 
 void Thermometer::print(Stream *stream) {
 
-  stream->println("Thermometer");
-
-  stream->print("Locating devices...");
+  stream->print(F("Therm> Locating devices..."));
   sensors.begin();
-  stream->print("Found ");
+  stream->print(F("Found "));
   stream->print(sensors.getDeviceCount(), DEC);
-  stream->println(" devices.");
+  stream->println(F(" devices."));
 
-  stream->print("Parasite power is: "); 
+  stream->print(F("Therm> Parasite power is: "));
   if (sensors.isParasitePowerMode()) {
-    stream->println("ON");
+    stream->println(F("ON"));
   } else {
-    stream->println("OFF");
+    stream->println(F("OFF"));
   }
 
-  stream->print("Device 0 Resolution: ");
-  stream->print(sensors.getResolution(thermometer), DEC); 
+  stream->print(F("Therm> Device 0 Resolution: "));
+  stream->print(sensors.getResolution(thermometer), DEC);
   stream->println();
 }
 
@@ -40,4 +38,3 @@ float Thermometer::read() {
 
   return sensors.getTempC(thermometer);
 }
-

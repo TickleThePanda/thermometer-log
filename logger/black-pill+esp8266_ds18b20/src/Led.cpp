@@ -20,7 +20,7 @@ void Led::flash(int n, int period) {
     on();
     delay(period);
     off();
-    delay(period);  
+    delay(period);
   }
 }
 
@@ -29,6 +29,6 @@ void Led::flash(int n, int periodOn, int periodOff) {
     on();
     delay(periodOn);
     off();
-    delay(periodOff);  
+    delay(periodOff);
   }
 }

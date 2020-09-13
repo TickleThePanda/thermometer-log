@@ -6,7 +6,7 @@
 #include <DallasTemperature.h>
 
 class Thermometer {
-  private: 
+  private:
     OneWire oneWire;
     DallasTemperature sensors;
     DeviceAddress thermometer;
