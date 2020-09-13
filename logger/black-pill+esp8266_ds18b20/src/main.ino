@@ -34,17 +34,21 @@ ThermometerClient thermometerClient(wiFiHardware, wiFiCredentials, THERMOMETER_A
 
 void setup()
 {
-  delay(INITIAL_DELAY); 
-  thermometerClient.init();
+  delay(INITIAL_DELAY);
+  DEBUG_LOG.println(F("main> Starting setup"));
 
+  thermometerClient.init();
   thermometer.print(&Serial);
   
   led.flash(2, 100);
 
+  DEBUG_LOG.println(F("main> Finished setup"));
 }
 
 void loop()
 {
+
+  DEBUG_LOG.println(F("main> Reading temperature"));
 
   float temp = thermometer.read();
 
@@ -55,6 +59,8 @@ void loop()
 
   thermometerClient.send(THERMOMETER_ROOM, temp);
 
+  DEBUG_LOG.print(F("main> Waiting for "));
+  DEBUG_LOG.print(READ_PERIOD / 1000);
+  DEBUG_LOG.println(F(" seconds"));
   delay(READ_PERIOD);
 }
-
