@@ -70,12 +70,15 @@ void loop()
     waitTime = READ_PERIOD;
   }
 
+  led.flash(2, 50);
+
   /* We don't use the current time here to keep the frequency roughly right. */
   nextLoopTime += READ_PERIOD;
 
   DEBUG_LOG.print(F("main> Waiting for "));
   DEBUG_LOG.print(waitTime / 1000);
   DEBUG_LOG.println(F(" seconds"));
+
   delay(waitTime);
 }
 
