@@ -58,6 +58,9 @@ bool ThermometerClient::send(const char *room, float temperature) {
 
   DEBUG_LOG.println(F("WiFi> Starting connection to server..."));
   if (client.connectSSL(SERVER, PORT)) {
+
+    delay(100);
+
     DEBUG_LOG.println(F("WiFi> Connected to server"));
 
     char tempAsText[9];
