@@ -70,7 +70,7 @@ The recommended way:
 ### Usage
 
 1. Clone this repo
-2. Run the following command, replacing <location> with the location of the thermometer, for example "living-room". This should only use a-z characters or hypens.
+2. Run the following command, replacing <location> with the location of the thermometer, for example "living-room". This should only use a-z characters or hyphens.
    ```
    docker stack delpoy --compose-file docker-compse.yml --compose-file docker-compose.prod.yml thermometer
    ```
