@@ -54,7 +54,7 @@ void ThermometerClient::init() {
   DEBUG_LOG.println(F("WiFi> Connected to WiFi network."));
 }
 
-void ThermometerClient::send(const char *room, float temperature) {
+bool ThermometerClient::send(const char *room, float temperature) {
 
   DEBUG_LOG.println(F("WiFi> Starting connection to server..."));
   if (client.connectSSL(SERVER, PORT)) {
@@ -93,7 +93,7 @@ void ThermometerClient::send(const char *room, float temperature) {
 
     DEBUG_LOG.println(F("WiFi> Conneciton failed"));
 
-    return;
+    return false;
   }
 
   uint8_t firstLineData[12];
@@ -112,8 +112,12 @@ void ThermometerClient::send(const char *room, float temperature) {
   strtok(firstLine, " ");
   char *statusCode = strtok(NULL, " ");
 
+  bool success = false;
+
   if (strcmp(statusCode, "204") == 0) {
     DEBUG_LOG.println(F("WiFi> Successfully updated temperature"));
+
+    success = true;
   } else {
     DEBUG_LOG.println(F("WiFi> Failed to update temperature"));
   }
@@ -122,5 +126,7 @@ void ThermometerClient::send(const char *room, float temperature) {
 
   client.flush();
   client.stop();
+
+  return success;
 
 }

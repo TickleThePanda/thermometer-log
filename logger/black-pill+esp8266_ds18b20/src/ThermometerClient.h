@@ -30,7 +30,7 @@ class ThermometerClient {
       const char *thermometerApiKey
     );
     void init();
-    void send(const char *room, float temperature);
+    bool send(const char *room, float temperature);
 };
 
 #endif

@@ -61,7 +61,13 @@ void loop()
 
   led.flash(1, 100);
 
-  thermometerClient.send(THERMOMETER_ROOM, temp);
+  bool success = thermometerClient.send(THERMOMETER_ROOM, temp);
+
+  if (success) {
+    led.flash(2, 50);
+  } else {
+    led.flash(2, 200);
+  }
 
   unsigned long waitTime = nextLoopTime - millis();
   if (waitTime < 0) {
@@ -69,8 +75,6 @@ void loop()
   } else if (waitTime > READ_PERIOD) {
     waitTime = READ_PERIOD;
   }
-
-  led.flash(2, 50);
 
   /* We don't use the current time here to keep the frequency roughly right. */
   nextLoopTime += READ_PERIOD;
