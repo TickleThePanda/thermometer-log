@@ -2,7 +2,7 @@
 #include "Thermometer.h"
 #include "ThermometerClient.h"
 
-#define THERMOMETER_PIN PB3
+#define THERMOMETER_PIN PB1
 #define LED_PIN PB12
 
 #define WIFI_RX PA3
