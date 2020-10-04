@@ -9,7 +9,7 @@ Thermometer::Thermometer(uint8_t pin) : oneWire(pin), sensors(&oneWire) {
   sensors.begin();
 
   sensors.getAddress(thermometer, 0);
-  sensors.setResolution(thermometer, 9);
+  sensors.setResolution(thermometer, 12);
 
 }
 
