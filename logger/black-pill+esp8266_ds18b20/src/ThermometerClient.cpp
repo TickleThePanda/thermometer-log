@@ -32,15 +32,15 @@ void ThermometerClient::init() {
 
   WiFi.init(wifiSerial, resetPin);
 
-  DEBUG_LOG.println(F("WiFi> Initialised"));
-
   if (WiFi.status() == WL_NO_MODULE) {
 
     DEBUG_LOG.println();
-    DEBUG_LOG.println(F("Connection with ESP failed"));
+    DEBUG_LOG.println(F("WiFi> Connection with ESP failed"));
 
     while (true);
   }
+
+  DEBUG_LOG.println(F("WiFi> Module initialised"));
 
   WiFi.begin(ssid, pass);
 
