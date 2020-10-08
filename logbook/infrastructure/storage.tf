@@ -11,23 +11,23 @@ provider "aws" {
   region = "eu-west-2"
 }
 
-resource "aws_dynamodb_table" "thermometer-log" {
-  name = "ThermometerLog"
-  billing_mode = "PROVISIONED"
-  read_capacity = "5"
-  write_capacity = "5"
+provider "aws" {
+  profile = "terraform"
+  region = "us-west-1"
+  alias = "us-west-1"
+}
 
-  hash_key = "RoomDay"
-  range_key = "Time"
+module "thermometer-log-table-eu-west-2" {
+  source = "./thermometer-log-table"
 
-  attribute {
-    name = "RoomDay"
-    type = "S"
-  }
+  # use default provider
+}
 
-  attribute {
-    name = "Time"
-    type = "S"
+module "thermometer-log-table-us-west-1" {
+  source = "./thermometer-log-table"
+
+  providers = {
+    aws = aws.us-west-1
   }
 }
 
@@ -54,7 +54,8 @@ data "aws_iam_policy_document" "ThermometerLogger" {
     ]
 
 		resources = [
-		  aws_dynamodb_table.thermometer-log.arn
+		  module.thermometer-log-table-eu-west-2.table-arn,
+		  module.thermometer-log-table-us-west-1.table-arn
 		]
   }
 }

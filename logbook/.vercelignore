@@ -8,6 +8,9 @@ logger
 *.tfstate.backup
 .terraform
 
+infrastructure/
+tools/
+
 .env
 
 
