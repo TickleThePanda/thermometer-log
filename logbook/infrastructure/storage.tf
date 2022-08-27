@@ -1,4 +1,10 @@
 terraform {
+  cloud {
+    organization = "TickleThePanda"
+    workspaces {
+      name = "thermometer-log"
+    }
+  }
   required_providers {
     aws = {
       source = "hashicorp/aws"
