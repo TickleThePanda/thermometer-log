@@ -7,12 +7,10 @@ terraform {
 }
 
 provider "aws" {
-  profile = "terraform"
   region = "eu-west-2"
 }
 
 provider "aws" {
-  profile = "terraform"
   region = "us-west-1"
   alias = "us-west-1"
 }
