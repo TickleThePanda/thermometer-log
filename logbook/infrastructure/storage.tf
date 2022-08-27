@@ -13,10 +13,20 @@ terraform {
 }
 
 provider "aws" {
+  default_tags {
+    tags = {
+      TerraformManaged = "True"
+    }
+  }
   region = "eu-west-2"
 }
 
 provider "aws" {
+  default_tags {
+    tags = {
+      TerraformManaged = "True"
+    }
+  }
   region = "us-west-1"
   alias = "us-west-1"
 }
